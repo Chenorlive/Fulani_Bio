@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="w-full h-screen">
+    <div class="text-sky-400 font-bold text-xl text-center p-5 md:text-3xl">Welcome to Fulani Database</div>
+
+    <div class="flex justify-center items-center mt-3 space-x-6">
+        
+        <a href="{% url 'list_member' %}" class="border-2 rounded-2xl border-sky-700 px-3 py-2 text-sky-400 text-base hover:bg-sky-600 hover:text-sky-50 focus:ring-4 focus:outline-none focus:ring-sky-300">
+            Member List
+        </a>
+
+        <a href="{% url 'new_member' %}" class="border-2 rounded-2xl border-sky-700 px-3 py-2 text-sky-400 text-base hover:bg-sky-600 hover:text-sky-50 focus:ring-4 focus:outline-none focus:ring-sky-300">
+            Add Member
+        </a>
+        <a href="{% url 'logout' %}" class="border-2 rounded-2xl border-red-300 px-3 py-2 text-sky-400 text-base hover:bg-red-600 hover:text-sky-50 focus:ring-4 focus:outline-none focus:ring-sky-300">
+            Logout
+        </a>
+    
+    </div>
+
+
+    <form class="max-w-sm mx-auto mt-5 md:max-w-3xl" method="get" action="{% url 'search_member' %}">   
+        <label for="default-search" class="mb-2 text-sm font-medium text-sky-900 sr-only">Search</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-sky-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                </svg>
+            </div>
+            <input type="text" name="query" class="block w-full p-4 ps-10 text-sm text-sky-100 border border-sky-300 rounded-lg bg-gray-900 focus:ring-sky-500 focus:border-sky-500 " placeholder="Search member..." required>
+            <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-4 py-2 ">Search</button>
+        </div>
+    </form>
+   
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="max-w-sm md:max-w-3xl py-4 px-8 mx-auto text-gray-50 m-4 text-sm rounded-lg {% if message.tags == 'error' %} bg-red-500 {% endif %} {% if message.tags == 'success' %} bg-sky-500 {% endif %} " role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content1 %}
+
+    {% endblock %}
+
+
+
+</section>
+
+{% endblock %}

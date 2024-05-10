@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<section class="w-full h-screen">
+
+
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:mt-4 md:mb-6 ">
+        <div class="w-full bg-gray-800 rounded-lg shadow md:mt-0 sm:max-w-3xl md:max-w-6xl xl:p-0">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-sky-400 md:text-2xl ">
+                    Update Members
+                </h1>
+                <form class=" space-y-4 md:space-y-6" method="post" action="{% url 'update_member' object.pk %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="hidden" id="previewDiv">
+                        <img class="h-32 w-32 rounded-full border-4 border-sky-400  mx-auto my-4" id="preview" alt="">
+                    </div>
+
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-sky-500 ">Picture</label>
+                        <input type="file" name="image" id="image" {% if object.image %} src="{{ object.image.url }}" {% endif %}  placeholder="Choose image" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " >
+                    </div>
+                     
+                    <div class="grid md:grid-cols-3 md:gap-6">
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">First Name</label>
+                            <input type="text" name="firstname" value="{{ object.firstname }}"  placeholder="Enter First Name" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Middle Name</label>
+                            <input type="text" name="middlename" value="{{ object.middlename }}" placeholder="Enter Middle Name (optional)" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " >
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Last Name</label>
+                            <input type="text" name="lastname" value="{{ object.lastname }}" placeholder="Enter Last Name" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 md:gap-6">
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Date of Birth</label>
+                            <input type="date" name="birth_date" value='{{ object.birth_date|date:"Y-m-d" }}' class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Gender</label>
+                            <select type="text" name="gender" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option selected value="{{ object.gender }}"> {{ object.gender }} </option>
+
+                                {% if object.gender == "Male" %}
+                                    <option value="Female">Female </option>
+                                {% else %}
+                                    <option value="Male">Male </option>
+                                {% endif %}
+                                
+                            </select>
+                        </div>
+                        
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">City / Town</label>
+                            <input type="text" name="city" value="{{ object.city }}" placeholder="Enter City or town" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 md:gap-6">
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">District</label>
+                            <select type="text" name="district" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value="{{ object.district.id }}"> {{ object.district.name }} </option>
+                                {% for obj in util.district %}
+                                    <option value="{{obj.id}}">{{ obj.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">County</label>
+                            <select type="text" name="county" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value="{{ object.county.id }}"> {{ object.county.name }} </option>
+                                {% for obj in util.county %}
+                                    <option value="{{obj.id}}">{{ obj.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Country</label>
+                            <select type="text" name="country" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value="{{ object.country.id }}"> {{ object.country.name }} </option>
+                                {% for obj in util.country %}
+                                    <option value="{{obj.id}}">{{ obj.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 md:gap-6">
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Position</label>
+                            <select type="text" name="position" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value="{{ object.position.id }}"> {{ object.position.name }} </option>
+                                {% for obj in util.position %}
+                                    <option value="{{obj.id}}">{{ obj.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Number</label>
+                            <input type="number" name="number" value="{{ object.Number }}" placeholder="231xxxxxxxxx (optional)" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " >
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Email</label>
+                            <input type="email" name="email" value="{{ object.email }}" placeholder="name@some.com (optional)" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " >
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 md:gap-6">
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Occupation</label>
+                            <select type="text" name="occupation" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value="{{ object.occupation.id }}"> {{ object.occupation.name }} </option>
+                                {% for obj in util.occupation %}
+                                <option value="{{obj.id}}">{{ obj.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Origin</label>
+                            <select type="text" name="origin" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value="{{ object.country.id }}"> {{ object.country.name }} </option>
+                                {% for obj in util.country %}
+                                <option value="{{obj.id}}">{{ obj.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Status</label>
+                            <select type="text" name="statue" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value="{{ object.statue }}"> {{ object.statue }} </option>
+                                <option value="Single">Single </option>
+                                <option value="Married">Married </option>
+                                <option value="Divorced">Divorced </option>
+                                <option value="Widow">Widow</option>
+                                <option value="Widower">Widower </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Address</label>
+                            <input type="text" name="address" value="{{ object.address }}" id="address" placeholder="Google support address" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900">
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Community / Street </label>
+                            <input type="text" name="community" value="{{ object.community }}"  placeholder="Enter Community" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                        </div>
+
+                    </div>
+                    
+                    <div class="hidden">
+                        <input type="text" name="place_id" value="{{ object.place_id }}" id="place_id" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900">
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-sky-500 ">Comment</label>
+                        <textarea  name="comment" placeholder="Extra Note" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 ">{{ object.comment }}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+
+    const inputFile = document.getElementById("image");
+
+    
+
+    const previewPhoto = () => {
+        const file = inputFile.files;
+        if (file) {
+            const fileReader = new FileReader();
+            const preview = document.getElementById('preview');
+            fileReader.onload = event => {
+                preview.setAttribute('src', event.target.result);
+            }
+            fileReader.readAsDataURL(file[0]);
+            document.getElementById('previewDiv').classList.remove("hidden");
+
+        }
+    }
+
+    inputFile.addEventListener('change', previewPhoto);
+
+   
+    let autocomplete;
+
+    function initMap() {
+        autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById("address"),
+            {
+                types: ['establishment'],
+                componentRestrictions: { country: ["us"] },
+                fields: ["place_id","address_components", "geometry", "icon", "name"],
+            }
+        );
+        autocomplete.addListener('place_change', onPlaceChange)
+    }
+
+    function onPlaceChange() {
+        var place = autocomplete.getPlace();
+
+        if (!place.geometry) {
+            
+        } else {
+            placeid = document.getElementById("placeid")
+            placeid.value = place.place_id
+        }
+    }
+
+    
+
+    
+
+</script>
+
+
+</script>
+
+{% endblock %}

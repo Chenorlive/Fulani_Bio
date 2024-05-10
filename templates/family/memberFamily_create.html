@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<section class="w-full h-screen">
+
+
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:mt-4 md:mb-6 ">
+        <div class="w-full bg-gray-800 rounded-lg shadow md:mt-0 sm:max-w-3xl md:max-w-6xl xl:p-0">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-sky-400 md:text-2xl ">
+                    Create a Family Members
+                </h1>
+                <form class=" space-y-4 md:space-y-6" method="post" action="{% url 'new_member' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="hidden" id="previewDiv">
+                        <img class="h-32 w-32 rounded-full border-4 border-sky-400  mx-auto my-3" id="preview" alt="">
+                    </div>
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Head</label>
+                            <select type="text" name="relationship" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value="{{ head.pk }}"> {{ head.firstname }} {{ head.lastname }} </option>
+                                
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Relationship</label>
+                            <select type="text" name="relationship" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value> ---- </option>
+                                {% for obj in relationship %}
+                                    <option value="{{obj.id}}">{{ obj.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-sky-500 ">Picture</label>
+                        <input type="file" name="image" id="image"  placeholder="Choose image" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " >
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 md:gap-6">
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">First Name</label>
+                            <input type="text" name="firstname"  placeholder="Enter First Name" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Middle Name</label>
+                            <input type="text" name="middlename" placeholder="Enter Middle Name (optional)" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " >
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Last Name</label>
+                            <input type="text" name="lastname" id="password" placeholder="Enter Last Name" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 md:gap-6">
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Date of Birth</label>
+                            <input type="date" name="birth_date" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Gender</label>
+                            <select type="text" name="gender" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value> ---- </option>
+                                <option value="Male">Male </option>
+                                <option value="Female">Female </option>
+                            </select>
+                        </div>
+                        
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">City / Town</label>
+                            <input type="text" name="city" placeholder="Enter City or town" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 md:gap-6">
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">District</label>
+                            <select type="text" name="district" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value> ---- </option>
+                                {% for obj in util.district %}
+                                    <option value="{{obj.id}}">{{ obj.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">County</label>
+                            <select type="text" name="county" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value> ---- </option>
+                                {% for obj in util.county %}
+                                    <option value="{{obj.id}}">{{ obj.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Country</label>
+                            <select type="text" name="country" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value> ---- </option>
+                                {% for obj in util.country %}
+                                    <option value="{{obj.id}}">{{ obj.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 md:gap-6">
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Position</label>
+                            <select type="text" name="position" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value> ---- </option>
+                                {% for obj in util.position %}
+                                    <option value="{{obj.id}}">{{ obj.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Number</label>
+                            <input type="number" name="number"  placeholder="231xxxxxxxxx (optional)" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " >
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Email</label>
+                            <input type="email" name="email" placeholder="name@some.com (optional)" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " >
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 md:gap-6">
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Occupation</label>
+                            <select type="text" name="occupation" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value> ---- </option>
+                                {% for obj in util.occupation %}
+                                <option value="{{obj.id}}">{{ obj.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Origin</label>
+                            <select type="text" name="origin" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value> ---- </option>
+                                {% for obj in util.country %}
+                                <option value="{{obj.id}}">{{ obj.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Status</label>
+                            <select type="text" name="statue" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                                <option value> ---- </option>
+                                <option value="Single">Single </option>
+                                <option value="Married">Married </option>
+                                <option value="Divorced">Divorced </option>
+                                <option value="Widow">Widow</option>
+                                <option value="Widower">Widower </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Address</label>
+                            <input type="text" name="address" id="address" placeholder="Google support address" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900">
+                        </div>
+                        <div class="relative z-0 w-full group">
+                            <label class="block mb-2 text-sm font-medium text-sky-500 ">Community / Street </label>
+                            <input type="text" name="community"  placeholder="Enter Community" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                        </div>
+
+                    </div>
+                    
+                    <div class="hidden">
+                        <input type="text" name="place_id" id="place_id" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900">
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-sky-500 ">Comment</label>
+                        <textarea  name="comment"  placeholder="Extra Note" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 "></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

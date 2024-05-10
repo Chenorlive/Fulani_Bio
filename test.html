@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <title>Place Autocomplete</title>
+
+    <style>
+
+        div {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        .tt {
+            width: 400px;
+            padding: 20px;
+        }
+    </style>
+
+    
+  </head>
+  <body>
+
+    <div>
+        <input id="search" class="tt" placeholder="Enter a place" type="text" />
+    </div>
+
+    
+    <script>
+
+        let autocomplete;
+
+        function initMap() {
+            autocomplete = new google.maps.places.Autocomplete(
+                document.getElementById("search"),
+                {
+                    types: ['establishment'],
+                    componentRestrictions: { country: ["us"] },
+                    fields: ["place_id","address_components", "geometry", "icon", "name"],
+                }
+            );
+            autocomplete.addListener('place_change', onPlaceChange)
+        }
+
+        function onPlaceChange() {
+            var place = autocomplete.getPlace();
+
+            if (!place.geometry) {
+                console.log('Did not select')
+            } else {
+                console.log('Did select')
+            }
+        }
+
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=&loading=async&libraries=places&callback=initMap" async defer>
+    </script>
+  </body>
+</html>

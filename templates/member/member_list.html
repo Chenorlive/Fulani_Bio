@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content1 %}
+
+    <div class="relative mt-3 mx-1 md:mx-auto max-w-5xl text-center">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-3 py-3">
+                        Picture
+                    </th>
+                    <th scope="col" class="px-4 py-3">
+                        Name
+                    </th>
+                    <th scope="col" class="px-3 py-3">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in object %}
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <td class="px-3 py-2">
+                        {% if obj.image %}
+                        <img src="{{ obj.image.url }}" alt="" class="h-12 w-12 rounded-full">
+                        {% else %}
+                        <img src="" alt="" class="h-12 w-10 rounded-full">
+                        {% endif %}
+
+                    </td>
+                    <th scope="row" class="px-3 py-2 font-medium text-gray-900 text-wrap whitespace-nowrap dark:text-white">
+                        {{ obj.firstname }} {{ obj.middlename }} {{ obj.lastname }}
+                    </th>
+                    <td class="px-3 py-3">
+                        <a class="text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm p-2" href="{% url 'detail_member' obj.serial %}">Detail</a>
+                        {% if user.is_authenticated %}
+                        <a class="text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm p-2 " href="{% url 'update_member' obj.pk %}">Edit</a>
+                        <a class="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-2 " href="{% url 'delete_member' obj.pk %}">Delete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

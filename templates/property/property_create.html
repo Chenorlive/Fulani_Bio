@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<section class="w-full h-screen">
+
+
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:mt-4 md:mb-6 ">
+        <div class="w-full bg-gray-800 rounded-lg shadow md:mt-0 sm:max-w-3xl md:max-w-6xl xl:p-0">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+               
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold leading-tight tracking-tight text-sky-400 md:text-2xl ">Add Property</h2>
+                    <div>
+                        <a href="{% url 'detail_member' member.serial %}" class="p-2 bg-pr1 text-sky-300 border border-sky-800 rounded-lg hover:bg-sky-800 hover:text-white">Back</a>
+                    </div>
+                    
+                </div>
+                <form class=" space-y-4 md:space-y-6" method="post" action="{% url 'new_property' member.pk %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-sky-500 ">Member</label>
+                        <select type="text" name="member" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                            
+                            <option value="{{ member.pk }}">{{ member.firstname}} {{ member.lastname}} </option>
+                           
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-sky-500 "> Name</label>
+                        <input type="text" name="name" placeholder="Enter Business Name" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 " required>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-sky-500 ">Description</label>
+                        <textarea  name="description"  placeholder="Describe the business (optional)" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900 "></textarea>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-sky-500 ">Address</label>
+                        <input type="text" name="address" id="address" placeholder="Google support address" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900">
+                    </div>
+                    
+                    <div class="hidden">
+                        <input type="text" name="place_id" id="place_id" class="w-full p-2.5 text-sm text-sky-200 border border-sky-600 rounded-md bg-gray-700 focus:ring-2 focus:ring-sky-900">
+                    </div>
+                    
+                    <button type="submit" class="w-full text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
